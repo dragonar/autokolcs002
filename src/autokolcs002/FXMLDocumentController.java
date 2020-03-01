@@ -6,6 +6,7 @@
 package autokolcs002;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,46 +74,105 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtBjogtipus;
 
         @FXML
-        void batAmodosit(ActionEvent event) {
+        void batAmodosit() {
 
         }
 
         @FXML
-        void batAtorles(ActionEvent event) {
+        void batAtorles() {
 
         }
 
         @FXML
-        void betAment(ActionEvent event) {
+        void betAment() {
+            String tipus = txtAtipus.getText().trim();
+        if (tipus.isEmpty() || tipus.length() > 100) {
+            hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
+            txtAtipus.requestFocus();
+            return;
+        }
+
+        String szin = txtAszin.getText().trim();
+        if (szin.isEmpty() || szin.length() > 50) {
+            hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
+            txtAszin.requestFocus();
+            return;
+        }
+
+        if (txtAjogtipus.getText().isEmpty()) {
+            hiba("Hiba", "Add meg a jógósitványod Tipusát!");
+            txtAjogtipus.requestFocus();
+            return;
+        }
+
+        String rendszam = txtArendszam.getText().trim();
+        if (rendszam.length() != 7) {
+            hiba("Hiba", "A rendszám 7 karakterből áll!");
+            txtArendszam.requestFocus();
+            return;
+        }
+
+        if (txtAberdij.getText().isEmpty()) {
+            hiba("Hiba", "Add meg a napi bérleti díjat!");
+            txtAberdij.requestFocus();
+            return;
+        }
+
+        Integer napidij;
+
+        try {
+            napidij = Integer.parseInt(txtAberdij.getText().trim());
+            if (napidij < 3000) {
+                hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
+                txtAberdij.requestFocus();
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            hiba("Hiba!", "Az ár nem szám!");
+            txtAberdij.requestFocus();
+            return;
+        }
+
+        if (!igennem("Mentés", "Mented az új autó adatait?")) {
+            return;
+        }
+
+        
+    
+        }
+
+        @FXML
+        void betAuj() {
+        txtAtipus.requestFocus();
+        txtAtipus.clear();
+        txtArendszam.clear();
+        txtAszin.clear();
+        txtAjogtipus.clear();
+        txtAberdij.clear();
 
         }
 
         @FXML
-        void betAuj(ActionEvent event) {
+        void betBju() {
 
         }
 
         @FXML
-        void betBju(ActionEvent event) {
+        void betBment() {
 
         }
 
         @FXML
-        void betBment(ActionEvent event) {
+        void betBmodosit() {
 
         }
 
         @FXML
-        void betBmodosit(ActionEvent event) {
-
-        }
-
-        @FXML
-        void betBtorles(ActionEvent event) {
+        void betBtorles() {
 
         }
     
-    
+    DB ab = new DB();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
