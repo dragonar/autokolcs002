@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -87,33 +88,33 @@ public class FXMLDocumentController implements Initializable {
         void betAment() {
             String tipus = txtAtipus.getText().trim();
         if (tipus.isEmpty() || tipus.length() > 100) {
-            hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
+             panel.Panel.hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
             txtAtipus.requestFocus();
             return;
         }
 
         String szin = txtAszin.getText().trim();
         if (szin.isEmpty() || szin.length() > 50) {
-            hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
+             panel.Panel.hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
             txtAszin.requestFocus();
             return;
         }
 
         if (txtAjogtipus.getText().isEmpty()) {
-            hiba("Hiba", "Add meg a jógósitványod Tipusát!");
+             panel.Panel.hiba("Hiba", "Add meg a jógósitványod Tipusát!");
             txtAjogtipus.requestFocus();
             return;
         }
 
         String rendszam = txtArendszam.getText().trim();
         if (rendszam.length() != 7) {
-            hiba("Hiba", "A rendszám 7 karakterből áll!");
+             panel.Panel.hiba("Hiba", "A rendszám 7 karakterből áll!");
             txtArendszam.requestFocus();
             return;
         }
 
         if (txtAberdij.getText().isEmpty()) {
-            hiba("Hiba", "Add meg a napi bérleti díjat!");
+             panel.Panel.hiba("Hiba", "Add meg a napi bérleti díjat!");
             txtAberdij.requestFocus();
             return;
         }
@@ -123,17 +124,17 @@ public class FXMLDocumentController implements Initializable {
         try {
             napidij = Integer.parseInt(txtAberdij.getText().trim());
             if (napidij < 3000) {
-                hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
+                panel.Panel.hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
                 txtAberdij.requestFocus();
                 return;
             }
         } catch (NumberFormatException ex) {
-            hiba("Hiba!", "Az ár nem szám!");
+            panel.Panel.hiba("Hiba!", "Az ár nem szám!");
             txtAberdij.requestFocus();
             return;
         }
 
-        if (!igennem("Mentés", "Mented az új autó adatait?")) {
+        if (!panel.Panel.igennem("Mentés", "Mented az új autó adatait?")) {
             return;
         }
 
@@ -178,4 +179,5 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
     
+     
 }

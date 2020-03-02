@@ -9,6 +9,9 @@ package autokolcs002;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.collections.ObservableList;
 
 /**
@@ -21,7 +24,9 @@ public class DB {
     private final String user = " ";
     private final String pass = " ";
     
-    public void autokBe(ObservableList<auto> tabla, ObservableList<String> lista) {}
+    
+    
+    public void autokBe(ObservableList<auto> tabla, ObservableList<String> lista) {
     
     String s = "SELECT * FROM autok ORDER BY tipus;";
 
@@ -47,10 +52,11 @@ public class DB {
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            hiba("hiba", ex.getMessage());
+            panel.Panel.hiba("hiba", ex.getMessage());
         }
 
     }
+}
     
     
     
