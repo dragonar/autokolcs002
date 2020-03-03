@@ -26,6 +26,10 @@ public class berlok {
         this.jogtipus = jogtipus;
     }
 
+    berlok(int aInt, String string, String string0, String string1, String string2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
