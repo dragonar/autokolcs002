@@ -101,12 +101,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                  <TableView fx:id="tblBerlok" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                     <columns>
-                      <TableColumn prefWidth="150.0" text="Név" />
-                      <TableColumn prefWidth="150.0" text="Cím" />
-                        <TableColumn prefWidth="150.0" text="Telefon" />
-                        <TableColumn prefWidth="150.0" text="jógositvány szám" />
+                      <TableColumn fx:id="oBnev" prefWidth="150.0" text="Név" />
+                      <TableColumn fx:id="oBcim" prefWidth="150.0" text="Cím" />
+                        <TableColumn fx:id="oBtelefon" prefWidth="150.0" text="Telefon" />
+                        <TableColumn fx:id="oBjogszam" prefWidth="150.0" text="jógositvány szám" />
+                        <TableColumn fx:id="oBjogtipus" prefWidth="150.0" text="jógositvány Tipus" />
                     </columns>
                   </TableView>
                   <TextField fx:id="txtBnev" prefHeight="15.0" prefWidth="100.0" GridPane.columnIndex="1" />
@@ -166,32 +167,35 @@
               </rowConstraints>
                <children>
                   <TextField GridPane.rowIndex="1" />
-                  <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                  <TableView fx:id="tblKolcsonzes" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="oKnev" prefWidth="150.0" text="Név" />
+                      <TableColumn fx:id="oKjogszam" prefWidth="150.0" text="jogositvány száma" />
+                        <TableColumn fx:id="oKtipus" prefWidth="150.0" text="Auto Tipus" />
+                        <TableColumn fx:id="oKrendszam" prefWidth="150.0" text="Rendszám" />
+                        <TableColumn fx:id="oKberdij" prefWidth="150.0" text="Bérdij" />
                     </columns>
                   </TableView>
-                  <MenuButton mnemonicParsing="false" text="személy">
+                  <MenuButton fx:id="cbxKnev" mnemonicParsing="false" text="személy">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </MenuButton>
-                  <MenuButton mnemonicParsing="false" text="Válasz bérelhatöautot" GridPane.columnIndex="1">
+                  <MenuButton fx:id="cbxKtipus" mnemonicParsing="false" text="Válasz bérelhatöautot" GridPane.columnIndex="1">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </MenuButton>
-                  <MenuButton mnemonicParsing="false" text="Rendszám" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <MenuButton fx:id="cbxKrendszam" mnemonicParsing="false" text="Rendszám" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </MenuButton>
-                  <Button mnemonicParsing="false" text="uj" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" text="ment" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#betKju" text="uj" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#betKment" text="ment" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>

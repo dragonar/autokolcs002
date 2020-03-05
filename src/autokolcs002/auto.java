@@ -10,23 +10,14 @@ package autokolcs002;
  * @author fuged
  */
 class auto {
-     private Integer id;
+     private int id;
     private String tipus;
     private String szin;
     private String jogtipus;
     private String rendszam;
-    private Integer berdij;
+    private int berdij;
 
-    public auto(Integer id, String tipus, String szin, String jogtipus, String rendszam, Integer berdij) {
-        this.id = id;
-        this.tipus = tipus;
-        this.szin = szin;
-        this.jogtipus = jogtipus;
-        this.rendszam = rendszam;
-        this.berdij = berdij;
-    }
-
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -46,11 +37,13 @@ class auto {
         this.rendszam = rendszam;
     }
 
-    public void setBerdij(Integer berdij) {
+    public void setBerdij(int berdij) {
         this.berdij = berdij;
     }
 
-    public Integer getId() {
+    
+    
+    public int getId() {
         return id;
     }
 
@@ -70,10 +63,20 @@ class auto {
         return rendszam;
     }
 
-    public Integer getBerdij() {
+    public int getBerdij() {
         return berdij;
     }
 
+    public auto(int id, String tipus, String szin, String jogtipus, String rendszam, int berdij) {
+        this.id = id;
+        this.tipus = tipus;
+        this.szin = szin;
+        this.jogtipus = jogtipus;
+        this.rendszam = rendszam;
+        this.berdij = berdij;
+    }
+
+   
 
 
 }

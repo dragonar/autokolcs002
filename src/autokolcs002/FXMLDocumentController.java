@@ -6,13 +6,14 @@
 package autokolcs002;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -25,6 +26,15 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private TextField txtAtipus;
+    
+     @FXML
+    private TextField txtArendszam;
+
+    @FXML
+    private TextField txtAjogtipus;
+
+    @FXML
+    private TextField txtAberdij;
 
     @FXML
     private TableView<auto> tblAutok;
@@ -48,14 +58,23 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<auto,Boolean > oAberelheto;
 
     @FXML
-    private TextField txtArendszam;
+    private TableView<berlok> tblBerlok;
 
     @FXML
-    private TextField txtAjogtipus;
+    private TableColumn<berlok, String> oBnev;
 
     @FXML
-    private TextField txtAberdij;
+    private TableColumn<berlok, String> oBcim;
 
+    @FXML
+    private TableColumn<berlok, String> oBtelefon;
+
+    @FXML
+    private TableColumn<berlok, String> oBjogszam;
+
+    @FXML
+    private TableColumn<berlok, String> oBjogtipus;
+    
     @FXML
     private TextField txtBnev;
 
@@ -70,87 +89,40 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private TextField txtBjogtipus;
+    
+    @FXML
+    private TableView<kolcsonzes> tblKolcsonzes;
+
+    @FXML
+    private TableColumn<kolcsonzes,String > oKnev;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oKjogszam;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oKtipus;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oKrendszam;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oKberdij;
+
+    @FXML
+    private MenuButton cbxKnev;
+
+    @FXML
+    private MenuButton cbxKtipus;
+
+    @FXML
+    private MenuButton cbxKrendszam;
+
+    
+    
 
         @FXML
         void batAmodosit() {
-            int index = tblAutok.getSelectionModel().getSelectedIndex();
-        if (index == -1) {
-            panel.Panel.hiba("Hiba", "Nincs kiválasztva a módosítandó gépjármű!");
-            return;
-        }
-        
-        String tipus = txtAtipus.getText().trim();
-        if (tipus.isEmpty() || tipus.length() > 100) {
-            panel.Panel.hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
-            txtAtipus.requestFocus();
-            return;
-        }
-        
-        String szin = txtAszin.getText().trim();
-        if (szin.isEmpty() || szin.length() > 50) {
-            panel.Panel.hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
-            txtAszin.requestFocus();
-            return;
-        }
-
-        if (txtAjogtipus.getText().isEmpty()) {
-            panel.Panel.hiba("Hiba", "Add meg a jógositványtipusodat");
-            txtAjogtipus.requestFocus();
-            return;
-        }
-
-        
-
-
-        String rendszam = txtArendszam.getText().trim();
-        if (rendszam.length() != 7) {
-            panel.Panel.hiba("Hiba", "A rendszám 7 karakterből áll!");
-            txtArendszam.requestFocus();
-            return;
-        }
-
-        if (txtAberdij.getText().isEmpty()) {
-            panel.Panel.hiba("Hiba", "Add meg a napi bérleti díjat!");
-            txtAberdij.requestFocus();
-            return;
-        }
-
-        Integer napidij;
-
-        try {
-            napidij = Integer.parseInt(txtAberdij.getText().trim());
-            if (napidij < 3000) {
-                panel.Panel.hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
-                txtAberdij.requestFocus();
-                return;
-            }
-        } catch (NumberFormatException ex) {
-            panel.Panel.hiba("Hiba!", "Az ár nem szám!");
-            txtAberdij.requestFocus();
-            return;
-        }
-
-        int id = tblAutok.getItems().get(index).getId();
-        /*
-        if (!panel.Panel.igennem("Mentés", "Mented a módisított adatokat")) {
-            return;
-        }
-        
-        String v = ab.auto_modosit(id, tipus, szin, evjarat, rendszam, napidij);
-        
-        if (v.isEmpty()) {
-            ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
-            beolvas();
-            for (int i = 0; i < tblAutok.getItems().size(); i++) {
-                if (tblAutok.getItems().get(i).getId() == id) {
-                    tblAutok.getSelectionModel().select(i);
-                    break;
-                }
-            }
-        } else {
-           panel.Panel. hiba("hiba", v);
-        }*/
-    
+         
         }
 
         @FXML
@@ -160,58 +132,6 @@ public class FXMLDocumentController implements Initializable {
 
         @FXML
         void betAment() {
-            String tipus = txtAtipus.getText().trim();
-        if (tipus.isEmpty() || tipus.length() > 100) {
-             panel.Panel.hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
-            txtAtipus.requestFocus();
-            return;
-        }
-
-        String szin = txtAszin.getText().trim();
-        if (szin.isEmpty() || szin.length() > 50) {
-             panel.Panel.hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
-            txtAszin.requestFocus();
-            return;
-        }
-
-        if (txtAjogtipus.getText().isEmpty()) {
-             panel.Panel.hiba("Hiba", "Add meg a jógósitványod Tipusát!");
-            txtAjogtipus.requestFocus();
-            return;
-        }
-
-        String rendszam = txtArendszam.getText().trim();
-        if (rendszam.length() != 7) {
-             panel.Panel.hiba("Hiba", "A rendszám 7 karakterből áll!");
-            txtArendszam.requestFocus();
-            return;
-        }
-
-        if (txtAberdij.getText().isEmpty()) {
-             panel.Panel.hiba("Hiba", "Add meg a napi bérleti díjat!");
-            txtAberdij.requestFocus();
-            return;
-        }
-
-        Integer berdijj;
-
-        try {
-            berdijj = Integer.parseInt(txtAberdij.getText().trim());
-            if (berdijj < 3000) {
-                panel.Panel.hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
-                txtAberdij.requestFocus();
-                return;
-            }
-        } catch (NumberFormatException ex) {
-            panel.Panel.hiba("Hiba!", "Az ár nem szám!");
-            txtAberdij.requestFocus();
-            return;
-        }
-
-        if (!panel.Panel.igennem("Mentés", "Mented az új autó adatait?")) {
-            return;
-        }
-
         
     
         }
@@ -234,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
 
         @FXML
         void betBment() {
-
+            
         }
 
         @FXML
@@ -246,12 +166,77 @@ public class FXMLDocumentController implements Initializable {
         void betBtorles() {
 
         }
+        
+          @FXML
+    void betKju() {
+
+    }
+
+    @FXML
+    void betKment() {
+
+    }
+
     
     DB ab = new DB();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        oAberdij.setCellValueFactory(new PropertyValueFactory<>(""));
+        oArendszam.setCellValueFactory(new PropertyValueFactory<>("nev"));
+       
+        
+        ab.autokBe(tblAutok.getItems());
+        
+         tblAutok.getSelectionModel().selectedIndexProperty().addListener(
+                (o, regi, uj) -> autokTablabol(uj.intValue()));
+         
+         
+        oBnev.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        oBcim.setCellValueFactory(new PropertyValueFactory<>("cim"));
+        oBtelefon.setCellValueFactory(new PropertyValueFactory<>("telefonszam"));
+        oBjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
+        oBjogtipus.setCellValueFactory(new PropertyValueFactory<>("jogtipus"));
+         
+         ab.berlokBe(tblBerlok.getItems());
+         
+         tblBerlok.getSelectionModel().selectedIndexProperty().addListener(
+                 (o, regi, uj)-> berlokTablabol(uj.intValue()));
+         
+         ab.kolcsonzesekBe(tblKolcsonzes.getItems());
+        
+        oKtipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
+        oKrendszam.setCellValueFactory(new PropertyValueFactory<>("rendszam"));
+        oKnev.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        oKjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
+        oKberdij.setCellValueFactory(new PropertyValueFactory<>("berdij"));
+        
+        
+        
     }    
     
+    private void autokTablabol(int i) {
+        if (i == -1) {
+            return;
+        }
+        auto a = tblAutok.getItems().get(i);
+        txtAtipus.setText(a.getTipus());
+        txtArendszam.setText(a.getRendszam());
+        txtAszin.setText(a.getSzin());
+        txtAjogtipus.setText("" + a.getJogtipus());
+        txtAberdij.setText("" + a.getBerdij());
+    }
+    
+    private void berlokTablabol(int i) {
+        if (i == -1) {
+            return;
+        }
+        berlok b = tblBerlok.getItems().get(i);
+        txtBcim.setText(b.getCim());
+        txtBjogszam.setText(b.getJogositvanyszam());
+        txtBjogtipus.setText(b.getJogtipus());
+        txtBnev.setText(b.getNev());
+        txtBtelszam.setText(b.getTelefonszam());
+    }
      
 }
