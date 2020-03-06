@@ -15,6 +15,7 @@ public class auto {
     private String szin;
     private String jogtipus;
     private String rendszam;
+    private int berelve;
     private int berdij;
 
     public void setId(int id) {
@@ -35,6 +36,10 @@ public class auto {
 
     public void setRendszam(String rendszam) {
         this.rendszam = rendszam;
+    }
+
+    public void setBerelve(int berelve) {
+        this.berelve = berelve;
     }
 
     public void setBerdij(int berdij) {
@@ -63,16 +68,21 @@ public class auto {
         return rendszam;
     }
 
+    public int getBerelve() {
+        return berelve;
+    }
+
     public int getBerdij() {
         return berdij;
     }
 
-    public auto(int id, String tipus, String szin, String jogtipus, String rendszam, int berdij) {
+    public auto(int id, String tipus, String szin, String jogtipus, String rendszam,int berelve, int berdij) {
         this.id = id;
         this.tipus = tipus;
         this.szin = szin;
         this.jogtipus = jogtipus;
         this.rendszam = rendszam;
+        this.berelve=berelve;
         this.berdij = berdij;
     }
 

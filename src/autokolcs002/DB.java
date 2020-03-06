@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.ObservableList;
-import javafx.scene.control.MenuItem;
 
 /**
  *
@@ -44,6 +43,7 @@ public class DB {
                         eredmeny.getString("szin"),
                         eredmeny.getString("jogtipus"),
                         eredmeny.getString("rendszam"),
+                        eredmeny.getInt("berelve"),
                         eredmeny.getInt("berdij"))
                 );
                 if (eredmeny.getInt("berelve") == 0) {
@@ -108,8 +108,8 @@ public class DB {
         }
     }
          
-            public int autok_hozzad(String tipus, String szin, String jogtipus, String rendszam, int berdij) {
-        String s = "INSERT INTO autok (tipus, szin, jogtipus, rendszam, berelve, berdij) VALUES (?,?,?,?,?);";
+            public int autok_hozzad(String tipus, String szin, String jogtipus, String rendszam,int berelve, int berdij) {
+        String s = "INSERT INTO autok (tipus, szin, jogtipus, rendszam,berelve, berdij) VALUES (?,?,?,?,?,?);";
 
         try (Connection kapcs = DriverManager.getConnection(db, user, pass);
                 PreparedStatement ekp = kapcs.prepareStatement(s)) {
@@ -117,7 +117,9 @@ public class DB {
             ekp.setString(2, szin);
             ekp.setString(3, jogtipus);
             ekp.setString(4, rendszam);
-            ekp.setInt(5, berdij);
+            ekp.setInt(5, berelve);
+            ekp.setInt(6, berdij);
+
             return ekp.executeUpdate();
           
                 } catch (SQLException ex) {
