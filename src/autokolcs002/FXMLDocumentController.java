@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -110,30 +110,187 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<kolcsonzes, String> oKberdij;
 
     @FXML
-    private MenuButton cbxKnev;
+    private ComboBox<String> cbxKnev;
 
     @FXML
-    private MenuButton cbxKtipus;
+    private ComboBox<String> cbxKrendszam;
 
     @FXML
-    private MenuButton cbxKrendszam;
+    private ComboBox<String> cbxKtipus;
+
+    @FXML
+    private TableView<kolcsonzes> tblvisszaadas;
 
     
     
 
         @FXML
         void batAmodosit() {
-         
+          int index = tblAutok.getSelectionModel().getSelectedIndex();
+        if (index == -1) {
+            panel.Panel.hiba("Hiba", "Nincs kiválasztva a módosítandó gépjármű!");
+            return;
+        }
+        
+        String tipus = txtAtipus.getText();
+            if (tipus.isEmpty() || tipus.length() > 100) {
+                panel.Panel.hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
+                txtAtipus.requestFocus();
+                return;
+            }
+
+            String szin = txtAszin.getText();
+            if (szin.isEmpty() || szin.length() > 50) {
+                panel.Panel.hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
+                txtAszin.requestFocus();
+                return;
+            }
+            
+            String jogtipus = txtAjogtipus.getText();
+            /*if (szin.length()> 1 || szin.length() < 4) {
+                panel.Panel.hiba("Hiba", "Add meg az autó vezető engedéjét 4 karakter lehet!!");
+                txtAjogtipus.requestFocus();
+                return;
+            }*/
+
+        
+            String rendszam = txtArendszam.getText();
+            if (rendszam.length() != 7) {
+                panel.Panel.hiba("Hiba", "A rendszám 7 karakterből áll!");
+                txtArendszam.requestFocus();
+                return;
+            }
+
+            if (txtAberdij.getText().isEmpty()) {
+                panel.Panel.hiba("Hiba", "Add meg a napi bérleti díjat!");
+                txtAberdij.requestFocus();
+                return;
+            }
+
+            Integer berdij;
+
+            try {
+                berdij = Integer.parseInt(txtAberdij.getText());
+                if (berdij < 3000) {
+                    panel.Panel.hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
+                    txtAberdij.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                panel.Panel.hiba("Hiba!", "Az ár nem szám!");
+                txtAberdij.requestFocus();
+                return;
+            }
+
+        int id = tblAutok.getItems().get(index).getId();
+        
+        if (!panel.Panel.igennem("Mentés", "Mented a módisított adatokat")) {
+            return;
+        }
+        
+        int v = ab.autok_modosit(id, tipus, szin, jogtipus, rendszam, berdij);
+        
+
+             if (v > 0) {
+            ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
+            //beolvas();
+            for (int i = 0; i < tblAutok.getItems().size(); i++) {
+                if (tblAutok.getItems().get(i).getId() == id) {
+                    tblAutok.getSelectionModel().select(i);
+                    break;
+                }
+            }
+        } else {
+            panel.Panel.hiba("hiba", "");
+        }
+        
         }
 
         @FXML
         void batAtorles() {
-
+            int index = tblAutok.getSelectionModel().getSelectedIndex();
+            if (index == -1) 
+                return;
+            if (!panel.Panel.igennem("Hiba", "Nincs kiválasztva a kivántsor!"))
+            return;
+            
+            int id = tblAutok.getItems().get(index).getId();
+            
+            int sor = ab.autok_torles(id);
+            if(sor >0){
+                ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
+                
+            }
         }
 
         @FXML
         void betAment() {
         
+            String tipus = txtAtipus.getText().trim();
+            if (tipus.isEmpty() || tipus.length() > 100) {
+                panel.Panel.hiba("Hiba", "Add meg az autó tipusát, ami maximum 100 karakter lehet!");
+                txtAtipus.requestFocus();
+                return;
+            }
+
+            String szin = txtAszin.getText().trim();
+            if (szin.isEmpty() || szin.length() > 50) {
+                panel.Panel.hiba("Hiba", "Add meg az autó szinét ami maximum 50 karakter lehet!!");
+                txtAszin.requestFocus();
+                return;
+            }
+            
+            String jogtipus = txtAjogtipus.getText().trim();
+            if (szin.length()>1 || szin.length() < 4) {
+                panel.Panel.hiba("Hiba", "Add meg az autó vezető engedéjét 4 karakter lehet!!");
+                txtAjogtipus.requestFocus();
+                return;
+            }
+
+        
+            String rendszam = txtArendszam.getText().trim();
+            if (rendszam.length() != 7) {
+                panel.Panel.hiba("Hiba", "A rendszám 7 karakterből áll!");
+                txtArendszam.requestFocus();
+                return;
+            }
+
+            if (txtAberdij.getText().isEmpty()) {
+                panel.Panel.hiba("Hiba", "Add meg a napi bérleti díjat!");
+                txtAberdij.requestFocus();
+                return;
+            }
+            
+         
+
+            Integer berdij;
+
+            try {
+                berdij = Integer.parseInt(txtAberdij.getText().trim());
+                if (berdij < 3000) {
+                    panel.Panel.hiba("Hiba", "Az autó napi bérleti díja nem lehet 3000 Ft-nál kevesebb!");
+                    txtAberdij.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                panel.Panel.hiba("Hiba!", "Az ár nem szám!");
+                txtAberdij.requestFocus();
+                return;
+            }
+
+            if (!panel.Panel.igennem("Mentés", "Mented az új autó adatait?")) {
+                return;
+            }
+            
+            int v = ab.autok_hozzad( tipus, szin, jogtipus,  rendszam, berdij);
+            
+
+            if (v > 0) {
+                ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
+            } else {
+                panel.Panel.hiba("Hiba", "");
+            }
+
     
         }
 
@@ -199,9 +356,9 @@ public class FXMLDocumentController implements Initializable {
         String v = ab.berlo_hozzad(nev, jogszam, jogtipus, telszam, cim);
 
         if (v.isEmpty()) {
-            ab.berlokBe(tblBerlok.getItems());
-            tblBerlok.getSelectionModel().selectedIndexProperty().addListener(
-                    (o, regi, uj) -> berlokTablabol(uj.intValue()));
+            ab.berlokBe(tblBerlok.getItems(), cbxKnev.getItems());
+            cbxKtipus.getSelectionModel().selectedIndexProperty().addListener(
+                    (o, regi, uj) -> tipusRendszam(uj.intValue()));
         } else {
             panel.Panel.hiba("Hiba", v);
         }
@@ -256,7 +413,7 @@ public class FXMLDocumentController implements Initializable {
         int v = ab.berlo_modosit(id, nev, jogszam, jogtipus, telszam, cim);
 
         if (v > 0) {
-            ab.berlokBe(tblBerlok.getItems());
+            ab.berlokBe(tblBerlok.getItems(),cbxKtipus.getItems());
             for (int i = 0; i < tblBerlok.getItems().size(); i++) {
                 if (tblBerlok.getItems().get(i).getId() == id) {
                     tblBerlok.getSelectionModel().select(i);
@@ -282,21 +439,65 @@ public class FXMLDocumentController implements Initializable {
             
             int sor = ab.berlo_torles(id);
             if(sor >0){
-                ab.berlokBe(tblBerlok.getItems());
+                ab.berlokBe(tblBerlok.getItems(),cbxKnev.getItems());
                 
             }
         }
         
           @FXML
     void betKju() {
-      cbxKnev.requestFocus();
-     
+        cbxKnev.requestFocus();
+        cbxKnev.setValue(null);
+       // cbxKjogositvanyszam.setText(null);
+        cbxKrendszam.setValue(null);
+        cbxKtipus.setValue(null);
       
     }
 
     @FXML
     void betKment() {
+        if (cbxKnev.getValue() == null) {
+            panel.Panel.hiba("Hiba", "Válaszd ki a bérlőt!");
+            cbxKnev.requestFocus();
+            return;
+        }
 
+        if (cbxKtipus.getValue() == null) {
+            panel.Panel.hiba("Hiba", "Válaszd ki a kölcsönözendő autót!");
+            cbxKtipus.requestFocus();
+            return;
+        }
+
+        if (cbxKrendszam.getValue() == null) {
+            panel.Panel.hiba("Hiba", "Válaszd ki a kölcsönözendő autó rendszámát!");
+            cbxKrendszam.requestFocus();
+            return;
+        }
+
+      /*  int tipusID = get_tipusId(cbxKrendszam.getValue());
+        int berloID = get_nevId(cbxKjogositvanyszam.getText());
+*/
+        String datum = LocalDate.now().toString();
+
+        if (!panel.Panel.igennem("Mentés", "Mented az új kölcsönzést?")) {
+            return;
+        }
+
+        //int v = ab.kolcsonzes_hozzad(tipusID, berloID, datum);
+        int v = ab.kolcsonzes_hozzad(Integer.BYTES, Integer.BYTES, datum);
+        if (v > 0) {
+            ab.kolcsonzesekBe(tblKolcsonzes.getItems());
+            ab.kolcsonzesekBe(tblvisszaadas.getItems());
+            //beolvas();
+            ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
+            cbxKtipus.setValue(null);
+            cbxKrendszam.setValue(null);
+            cbxKtipus.getSelectionModel().selectedIndexProperty().addListener(
+                    (o, regi, uj) -> tipusRendszam(uj.intValue()));
+
+        } else {
+            panel.Panel.hiba("Hiba", "");
+        }
     }
 
     
@@ -304,11 +505,15 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        oAberdij.setCellValueFactory(new PropertyValueFactory<>(""));
-        oArendszam.setCellValueFactory(new PropertyValueFactory<>(""));
+        oAberdij.setCellValueFactory(new PropertyValueFactory<>("berdij"));
+        oArendszam.setCellValueFactory(new PropertyValueFactory<>("rendszam"));
+        oAberelheto.setCellValueFactory(new PropertyValueFactory<>("berelve"));
+        oAjogtipus.setCellValueFactory(new PropertyValueFactory<>("jogtipus"));
+        oAszin.setCellValueFactory(new PropertyValueFactory<>("szin"));
+        oAtipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
        
         
-        ab.autokBe(tblAutok.getItems());
+        ab.autokBe(tblAutok.getItems(),cbxKtipus.getItems());
         
          tblAutok.getSelectionModel().selectedIndexProperty().addListener(
                 (o, regi, uj) -> autokTablabol(uj.intValue()));
@@ -320,7 +525,7 @@ public class FXMLDocumentController implements Initializable {
         oBjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
         oBjogtipus.setCellValueFactory(new PropertyValueFactory<>("jogtipus"));
          
-         ab.berlokBe(tblBerlok.getItems());
+         ab.berlokBe(tblBerlok.getItems(),cbxKnev.getItems());
          
          tblBerlok.getSelectionModel().selectedIndexProperty().addListener(
                  (o, regi, uj)-> berlokTablabol(uj.intValue()));
@@ -361,4 +566,19 @@ public class FXMLDocumentController implements Initializable {
         txtBtelszam.setText(b.getTelefonszam());
     }
      
+    private void tipusRendszam(int i) {
+        if (i == -1) {
+            return;
+        }
+        cbxKrendszam.getItems().clear();
+        for (int j = 0; j < tblAutok.getItems().size(); j++) {
+            auto a = tblAutok.getItems().get(j);
+            if (cbxKtipus.getValue().equals(a.getTipus())) {
+                cbxKrendszam.getItems().add(a.getRendszam());
+            }
+        }
+
+    }
+
+  
 }

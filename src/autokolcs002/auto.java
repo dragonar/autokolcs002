@@ -9,7 +9,7 @@ package autokolcs002;
  *
  * @author fuged
  */
-class auto {
+public class auto {
      private int id;
     private String tipus;
     private String szin;

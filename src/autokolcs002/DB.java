@@ -27,7 +27,7 @@ public class DB {
     
     
     
-    public void autokBe(ObservableList<auto> tabla/*, /*ObservableList<String> lista*/) {
+    public void autokBe(ObservableList<auto> tabla, ObservableList<String> lista) {
     
     String s = "SELECT * FROM autok ;";
 
@@ -35,7 +35,7 @@ public class DB {
                 PreparedStatement ekp = kapcs.prepareStatement(s)) {
             ResultSet eredmeny = ekp.executeQuery();
             tabla.clear();
-           // lista.clear();
+            lista.clear();
 
             while (eredmeny.next()) {
                 tabla.add(new auto(
@@ -46,17 +46,17 @@ public class DB {
                         eredmeny.getString("rendszam"),
                         eredmeny.getInt("berdij"))
                 );
-               /* if (eredmeny.getInt("berelve") == 0) {
+                if (eredmeny.getInt("berelve") == 0) {
                     lista.add((eredmeny.getString("tipus")));
 
-                }*/
+                }
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             panel.Panel.hiba("hiba", ex.getMessage());
         }
     }
-        public void berlokBe(ObservableList<berlok> tabla/*, ObservableList<String> lista*/) {
+        public void berlokBe(ObservableList<berlok> tabla, ObservableList<String> lista) {
     
     String s = "SELECT * FROM berlok ORDER BY nev;";
 
@@ -64,7 +64,7 @@ public class DB {
                 PreparedStatement ekp = kapcs.prepareStatement(s)) {
             ResultSet eredmeny = ekp.executeQuery();
             tabla.clear();
-           // lista.clear();
+            lista.clear();
 
             while (eredmeny.next()) {
                 tabla.add(new berlok(
@@ -75,13 +75,14 @@ public class DB {
                         eredmeny.getString("cim"),
                         eredmeny.getString("jogtipus"))
                 );
-                   // lista.add(eredmeny.getString("nev"));  
+                    lista.add(eredmeny.getString("nev"));  
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
 
         }
+        
          public void kolcsonzesekBe(ObservableList<kolcsonzes> tabla) {
         String s = "SELECT* FROM kolcsonzesek "
                 + "JOIN autok ON kolcsonzesek.autoid=autok.id JOIN berlok ON kolcsonzesek.berloid=berlok.id WHERE kolcsonzesek.vege IS NULL;";
@@ -107,6 +108,25 @@ public class DB {
         }
     }
          
+            public int autok_hozzad(String tipus, String szin, String jogtipus, String rendszam, int berdij) {
+        String s = "INSERT INTO autok (tipus, szin, jogtipus, rendszam, berelve, berdij) VALUES (?,?,?,?,?);";
+
+        try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                PreparedStatement ekp = kapcs.prepareStatement(s)) {
+            ekp.setString(1, tipus);
+            ekp.setString(2, szin);
+            ekp.setString(3, jogtipus);
+            ekp.setString(4, rendszam);
+            ekp.setInt(5, berdij);
+            return ekp.executeUpdate();
+          
+                } catch (SQLException ex) {
+                  panel.Panel.hiba("Hiba", ex.getMessage());
+                    return 0;
+                }
+        }
+            
+            
           public String berlo_hozzad(String nev, String jogositvanyszam,String jogtipus, String telefonszam, String cim) {
         String s = "INSERT INTO berlok (nev, jogositvanyszam, jogtipus, telefonszam, cim) VALUES (?,?,?,?,?);";
 
@@ -124,8 +144,49 @@ public class DB {
         }
     }
           
-          public int berlo_modosit(int id, String nev, String jogositvanyszam, String jogtipus,
-            String telefonszam, String cim) {
+        public int kolcsonzes_hozzad(Integer autoid, Integer berloid, String kezdet) {
+            String s = "INSERT INTO kolcsonzesek (autoid, berloid, kezdete) "
+                    + "VALUES (?,?,?);";
+            String v = "UPDATE autok SET berelve=1 WHERE id=?;";
+
+            try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                    PreparedStatement ekp = kapcs.prepareStatement(s);
+                    PreparedStatement ekp2 = kapcs.prepareStatement(v)) {
+                ekp.setInt(1, autoid);
+                ekp.setInt(2, berloid);
+                ekp.setString(3, kezdet);
+                ekp.executeUpdate();
+                ekp2.setInt(1, autoid);
+                return ekp2.executeUpdate();
+                
+            } catch (SQLException ex) {
+               panel.Panel.hiba("Hiba",ex.getMessage());
+               return 0;
+            }
+        }
+     
+           public int autok_modosit(int id, String tipus, String szin, String jogtipus,
+                   String rendszam, int berdij) {
+        String s = "UPDATE autok SET (tipus=?, szin=?, jogtipus=?, rendszam=? , berdij=? "
+                + " WHERE id=?";
+
+        try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                PreparedStatement ekp = kapcs.prepareStatement(s)) {
+            ekp.setString(1, tipus);
+            ekp.setString(2, szin);
+            ekp.setString(3, jogtipus);
+            ekp.setString(4, rendszam);
+            ekp.setInt(5,berdij );
+            ekp.setInt(6, id);
+            return ekp.executeUpdate();
+            
+        } catch (SQLException ex) {
+            panel.Panel.hiba("Hiba", ex.getMessage());
+            return 0;
+        }
+    }
+          
+          public int berlo_modosit(int id, String nev, String jogositvanyszam, String jogtipus, String telefonszam, String cim) {
         String s = "UPDATE berlok SET nev=?, jogositvanyszam=?, jogtipus=?, telefonszam=?, "
                 + "cim=? WHERE id=?";
 
@@ -144,6 +205,19 @@ public class DB {
             return 0;
         }
     }
+          
+           public int autok_torles(int id){
+               String s = "DELETE FROM autok WHERE id=?";
+
+        try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                PreparedStatement ekp = kapcs.prepareStatement(s)) {
+                    ekp.setInt(1, id);
+                    return ekp.executeUpdate();
+                }catch (SQLException ex) {
+                    panel.Panel.hiba("Hiba", ex.getMessage());
+                    return 0;
+                }
+          }
           
         public int berlo_torles(int id){
                String s = "DELETE FROM berlok WHERE id=?";
