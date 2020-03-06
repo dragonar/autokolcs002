@@ -166,7 +166,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField GridPane.rowIndex="1" />
+                  <TextField fx:id="cbxKjogszam" GridPane.rowIndex="1" />
                   <TableView fx:id="tblKolcsonzes" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                     <columns>
                       <TableColumn fx:id="oKnev" prefWidth="150.0" text="Név" />
@@ -200,7 +200,7 @@
             </GridPane>
          </content>
       </Tab>
-      <Tab text="viszaadás">
+      <Tab text="visszaadás">
          <content>
             <GridPane>
               <columnConstraints>
@@ -214,7 +214,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                  <TableView fx:id="tblvisszaadas" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
                       <TableColumn prefWidth="75.0" text="C2" />

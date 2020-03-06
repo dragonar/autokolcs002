@@ -29,4 +29,37 @@ public class osszes {
         this.vege = vege;
         this.fizetett = fizetett;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getTipus() {
+        return tipus;
+    }
+
+    public String getRendszam() {
+        return rendszam;
+    }
+
+    public String getNev() {
+        return nev;
+    }
+
+    public String getJogositvanyszam() {
+        return jogositvanyszam;
+    }
+
+    public String getKezdete() {
+        return kezdete;
+    }
+
+    public String getVege() {
+        return vege;
+    }
+
+    public Integer getFizetett() {
+        return fizetett;
+    }
+    
 }
