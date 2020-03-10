@@ -7,10 +7,12 @@ package autokolcs002;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -91,6 +93,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField txtBjogtipus;
     
+      @FXML
+    private TextField cbxKjogszam;
+    
     @FXML
     private TableView<kolcsonzes> tblKolcsonzes;
 
@@ -121,7 +126,77 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableView<kolcsonzes> tblvisszaadas;
 
+    @FXML
+    private TableColumn<kolcsonzes, String> oVtipus;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oVrendszam;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oVnev;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oVjogszam;
+
+    @FXML
+    private TableColumn<kolcsonzes, String> oVkolcskezdet;
+
+    @FXML
+    private TextField txtVnev;
+
+    @FXML
+    private TextField txtVtipus;
+
+    @FXML
+    private TextField txtVfizetett;
     
+    @FXML
+    private Label lblVdij;
+    @FXML
+    private TextField txtOtipus;
+
+    @FXML
+    private TextField txtOrendszam;
+
+    @FXML
+    private TextField txtOnev;
+
+    @FXML
+    private TextField txtOjogszam;
+
+    @FXML
+    private TextField txtOelvitt;
+
+    @FXML
+    private TextField txtOviszahozot;
+
+    @FXML
+    private TextField txtOfizetet;
+    
+     @FXML
+    private TableView<osszes> tblOsszeg;
+
+    @FXML
+    private TableColumn<osszes, String> oOtipus;
+
+    @FXML
+    private TableColumn<osszes, String> oOrendszam;
+
+    @FXML
+    private TableColumn<osszes, String> oOnev;
+
+    @FXML
+    private TableColumn<osszes, String> oOjogszam;
+
+    @FXML
+    private TableColumn<osszes, String> oOelvitt;
+
+    @FXML
+    private TableColumn<osszes, String> oOviszahozot;
+
+    @FXML
+    private TableColumn<osszes, Integer> oOfizetett;
+
     
 
         @FXML
@@ -166,7 +241,8 @@ public class FXMLDocumentController implements Initializable {
                 txtAberdij.requestFocus();
                 return;
             }
-
+            
+            
             Integer berdij;
 
             try {
@@ -181,16 +257,16 @@ public class FXMLDocumentController implements Initializable {
                 txtAberdij.requestFocus();
                 return;
             }
-
+            
         int id = tblAutok.getItems().get(index).getId();
         
         if (!panel.Panel.igennem("Mentés", "Mented a módisított adatokat")) {
             return;
         }
-        
-        int v = ab.autok_modosit(id, tipus, szin, jogtipus, rendszam, berdij);
-        
+       
 
+        int v = ab.autok_modosit(id, tipus, szin, jogtipus, rendszam, berdij);
+         
              if (v > 0) {
             ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
             //beolvas();
@@ -449,7 +525,7 @@ public class FXMLDocumentController implements Initializable {
     void betKju() {
         cbxKnev.requestFocus();
         cbxKnev.setValue(null);
-       // cbxKjogositvanyszam.setText(null);
+        cbxKjogszam.setText(null);
         cbxKrendszam.setValue(null);
         cbxKtipus.setValue(null);
       
@@ -476,7 +552,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
         int tipusID = get_tipusId(cbxKrendszam.getValue());
-        //int berloID = get_nevId(cbxKjogositvanyszam.getText());
+        int berloID = get_nevId(cbxKjogszam.getText());
 
         String datum = LocalDate.now().toString();
 
@@ -484,12 +560,12 @@ public class FXMLDocumentController implements Initializable {
             return;
         }
 
-        int v = ab.kolcsonzes_hozzad(tipusID, Integer.BYTES, datum);
-        //int v = ab.kolcsonzes_hozzad(Integer.BYTES, Integer.BYTES, datum);
+        int v = ab.kolcsonzes_hozzad(tipusID, berloID, datum);
+        
         if (v > 0) {
             ab.kolcsonzesekBe(tblKolcsonzes.getItems());
             ab.kolcsonzesekBe(tblvisszaadas.getItems());
-            //beolvas();
+            beolvas();
             ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
             cbxKtipus.setValue(null);
             cbxKrendszam.setValue(null);
@@ -501,6 +577,60 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+     @FXML
+    void betVment() {
+ if (txtVnev.getText().isEmpty()) {
+            panel.Panel.hiba("Hiba!", "Válaszd ki a visszahozottat");
+            return;
+        }
+        int l = txtVnev.getText().length();
+        int id = get_id(txtVnev.getText().substring(l - 8));
+
+        Integer ar;
+
+        if (txtVfizetett.getText().isEmpty()) {
+            panel.Panel.hiba("Hiba", "Tölsd ki a fizetett bérleti díjat");
+            txtVfizetett.requestFocus();
+            return;
+        } else {
+            try {
+                ar = Integer.parseInt(txtVfizetett.getText());
+                if (ar < dij) {
+                    panel.Panel.hiba("Hiba!", "A bérleti díj nem lehet kevesebb számítottnál!");
+                    txtVfizetett.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                panel.Panel.hiba("Hiba!", "Az ár nem szám!");
+                txtVfizetett.requestFocus();
+                return;
+            }
+        }
+
+        String datum = LocalDate.now().toString();
+
+        if (!panel.Panel.igennem("Mentés", "A fizetés megtörtént,\na gépjárművel minden rendben van\nés biztosan menteni szeretnél!")) {
+            return;
+        }
+
+        String v = ab.kolcsonzesVissza(id, datum, ar);
+
+        if (v.isEmpty()) {
+            ab.kolcsonzesekBe(tblvisszaadas.getItems());
+            ab.kolcsonzesekBe(tblKolcsonzes.getItems());
+            beolvas();
+            ab.autokBe(tblAutok.getItems(), cbxKtipus.getItems());
+            cbxKtipus.getSelectionModel().selectedIndexProperty().addListener(
+                    (o, regi, uj) -> tipusRendszam(uj.intValue()));
+            lblVdij.setText("Bérleti díj");
+        } else {
+            panel.Panel.hiba("Hiba", v);
+        }
+
+        txtVnev.clear();
+        txtVtipus.clear();
+        txtVfizetett.clear();
+    }
     
     DB ab = new DB();
     @Override
@@ -531,16 +661,48 @@ public class FXMLDocumentController implements Initializable {
          tblBerlok.getSelectionModel().selectedIndexProperty().addListener(
                  (o, regi, uj)-> berlokTablabol(uj.intValue()));
          
-         ab.kolcsonzesekBe(tblKolcsonzes.getItems());
-        
+         
         oKtipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
         oKrendszam.setCellValueFactory(new PropertyValueFactory<>("rendszam"));
         oKnev.setCellValueFactory(new PropertyValueFactory<>("nev"));
         oKjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
         oKberdij.setCellValueFactory(new PropertyValueFactory<>("berdij"));
         
+        ab.kolcsonzesekBe(tblKolcsonzes.getItems());
         
+        cbxKnev.getSelectionModel().selectedIndexProperty().addListener(
+                (o, regi, uj) -> berloJogsi(uj.intValue()));
+
+        cbxKtipus.getSelectionModel().selectedIndexProperty().addListener(
+                (o, regi, uj) -> tipusRendszam(uj.intValue()));
         
+        oVtipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
+        oVrendszam.setCellValueFactory(new PropertyValueFactory<>("rendszam"));
+        oVnev.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        oVjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
+        oVkolcskezdet.setCellValueFactory(new PropertyValueFactory<>("kezdete"));
+
+        ab.kolcsonzesekBe(tblvisszaadas.getItems());
+        
+        tblvisszaadas.getSelectionModel().selectedIndexProperty().addListener(
+                (o, regi, uj) -> visszaadasTablalbol(uj.intValue()));
+        
+        oOtipus.setCellValueFactory(new PropertyValueFactory<>("tipus"));
+        oOrendszam.setCellValueFactory(new PropertyValueFactory<>("rendszam"));
+        oOnev.setCellValueFactory(new PropertyValueFactory<>("nev"));
+        oOjogszam.setCellValueFactory(new PropertyValueFactory<>("jogositvanyszam"));
+        oOelvitt.setCellValueFactory(new PropertyValueFactory<>("kezdete"));
+        oOviszahozot.setCellValueFactory(new PropertyValueFactory<>("vege"));
+        oOfizetett.setCellValueFactory(new PropertyValueFactory<>("fizetett"));
+
+        beolvas();
+        txtOtipus.textProperty().addListener(e -> beolvas());
+        txtOrendszam.textProperty().addListener(e -> beolvas());
+        txtOnev.textProperty().addListener(e -> beolvas());
+        txtOjogszam.textProperty().addListener(e -> beolvas());
+        txtOelvitt.textProperty().addListener(e -> beolvas());
+        txtOviszahozot.textProperty().addListener(e -> beolvas());
+        txtOfizetet.textProperty().addListener(e -> beolvas());
     }    
     
     private void autokTablabol(int i) {
@@ -566,7 +728,24 @@ public class FXMLDocumentController implements Initializable {
         txtBnev.setText(b.getNev());
         txtBtelszam.setText(b.getTelefonszam());
     }
-     
+    long dij;
+    private void visszaadasTablalbol(int i) {
+        if (i == -1) {
+            return;
+        }
+
+        kolcsonzes k = tblvisszaadas.getItems().get(i);
+        txtVnev.setText(k.getNev() + " / " + k.getJogositvanyszam());
+        txtVtipus.setText(k.getTipus() + " / " + k.getRendszam());
+
+        LocalDate mettol = LocalDate.parse(k.getKezdete());
+        LocalDate meddig = LocalDate.now();
+        long napok = ChronoUnit.DAYS.between(mettol, meddig) + 1;
+        dij = napok * k.getBerdij();
+        lblVdij.setText("A(z) " + napok + " napos bérelt alapján a bérleti díj: " + dij + " Ft");
+        txtVfizetett.setText(dij + "");
+    }
+    
     private void tipusRendszam(int i) {
         if (i == -1) {
             return;
@@ -579,6 +758,13 @@ public class FXMLDocumentController implements Initializable {
             }
         }
 
+    }
+    
+     private void berloJogsi(int i) {
+        if (i == -1) {
+            return;
+        }
+        cbxKjogszam.setText(tblBerlok.getItems().get(i).getJogositvanyszam());
     }
 
     private int get_tipusId(String rendszam) {
@@ -602,4 +788,42 @@ public class FXMLDocumentController implements Initializable {
 
     }
   
+     private int get_id(String jogositvanyszam) {
+        int i = 0;
+
+        while (!tblvisszaadas.getItems().get(i).getJogositvanyszam().equals(jogositvanyszam)) {
+            i++;
+        }
+
+        return tblvisszaadas.getItems().get(i).getId();
+    }
+      private void beolvas() {
+        String sz1 = "'%" + txtOtipus.getText() + "%' ";
+        String sz2 = "'%" + txtOrendszam.getText() + "%' ";
+        String sz3 = "'%" + txtOnev.getText() + "%' ";
+        String sz4 = "'%" + txtOjogszam.getText() + "%' ";
+        String sz5 = "'%" + txtOelvitt.getText() + "%' ";
+        String sz6 = "'%" + txtOviszahozot.getText() + "%' ";
+        String sz7 = "'%" + txtOfizetet.getText() + "%' ";
+        
+        String s = "SELECT kolcsonzesek.id, autok.tipus, autok.rendszam, berlok.nev, "
+                + "berlok.jogositvanyszam, kolcsonzesek.kezdete, kolcsonzesek.vege, "
+                + "kolcsonzesek.fizetett FROM kolcsonzesek "
+                + "JOIN autok ON kolcsonzesek.autoid=autok.id "
+                + "JOIN berlok ON kolcsonzesek.berloid=berlok.id "
+                + "WHERE autok.tipus LIKE " + sz1
+                + "AND autok.rendszam LIKE " + sz2
+                + "AND berlok.nev LIKE " + sz3
+                + "AND berlok.jogositvanyszam LIKE " + sz4
+                + "AND kolcsonzesek.kezdete LIKE " + sz5;
+        
+        if (!txtOviszahozot.getText().isEmpty() || !txtOfizetet.getText().isEmpty()) {
+            s += "AND kolcsonzesek.vege LIKE " + sz6
+                    + "AND kolcsonzesek.fizetett LIKE " + sz7;
+        }
+
+        s += "ORDER BY autok.tipus, berlok.nev, kolcsonzesek.kezdete DESC;";
+
+        ab.osszesBe(tblOsszeg.getItems(), s);
+    }
 }

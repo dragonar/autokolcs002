@@ -127,8 +127,7 @@ public class DB {
                     return 0;
                 }
         }
-            
-            
+             
           public String berlo_hozzad(String nev, String jogositvanyszam,String jogtipus, String telefonszam, String cim) {
         String s = "INSERT INTO berlok (nev, jogositvanyszam, jogtipus, telefonszam, cim) VALUES (?,?,?,?,?);";
 
@@ -169,7 +168,7 @@ public class DB {
      
            public int autok_modosit(int id, String tipus, String szin, String jogtipus,
                    String rendszam, int berdij) {
-        String s = "UPDATE autok SET (tipus=?, szin=?, jogtipus=?, rendszam=? , berdij=? "
+        String s = "UPDATE autok SET tipus=?, szin=?, jogtipus=?, rendszam=? ,   berdij=?  "
                 + " WHERE id=?";
 
         try (Connection kapcs = DriverManager.getConnection(db, user, pass);
@@ -180,7 +179,9 @@ public class DB {
             ekp.setString(4, rendszam);
             ekp.setInt(5,berdij );
             ekp.setInt(6, id);
+            System.out.println(ekp);
             return ekp.executeUpdate();
+           
             
         } catch (SQLException ex) {
             panel.Panel.hiba("Hiba", ex.getMessage());
@@ -233,4 +234,49 @@ public class DB {
                     return 0;
                 }
           }
+        
+         public String kolcsonzesVissza(Integer id, String datum, Integer fizetett) {
+        String s = "UPDATE kolcsonzesek SET vege=?, fizetett=?"
+                + " WHERE kolcsonzesek.id=?";
+        
+        String v = "UPDATE autok JOIN kolcsonzesek ON autok.id=kolcsonzesek.autoid SET berelve=0 WHERE kolcsonzesek.id=?;";
+
+        try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                PreparedStatement ekp = kapcs.prepareStatement(s);
+                PreparedStatement ekp2 = kapcs.prepareStatement(v)) {
+            ekp.setString(1, datum);
+            ekp.setInt(2, fizetett);
+            ekp.setInt(3, id);
+            ekp.executeUpdate();
+            ekp2.setInt(1, id);
+            ekp2.executeUpdate();
+            return "";
+        } catch (SQLException ex) {
+            return ex.getMessage();
+        }
+    }
+
+    public void osszesBe(ObservableList<osszes> tabla, String s) {
+
+        try (Connection kapcs = DriverManager.getConnection(db, user, pass);
+                PreparedStatement ekp = kapcs.prepareStatement(s)) {
+            ResultSet eredmeny = ekp.executeQuery();
+            tabla.clear();
+
+            while (eredmeny.next()) {
+                tabla.add(new osszes(
+                        eredmeny.getInt("id"),
+                        eredmeny.getString("tipus"),
+                        eredmeny.getString("rendszam"),
+                        eredmeny.getString("nev"),
+                        eredmeny.getString("jogositvanyszam"),
+                        eredmeny.getString("kezdete"),
+                        eredmeny.getString("vege"),
+                        eredmeny.getInt("fizetett")
+                ));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
