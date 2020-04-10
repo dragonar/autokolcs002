@@ -6,8 +6,8 @@
 package autokolcs002;
 
 /**
- *
- * @author fuged
+ * 
+ * @author Fugedi Marcell
  */
 public class osszes {
     private Integer id;

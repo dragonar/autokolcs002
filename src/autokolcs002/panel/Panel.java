@@ -1,4 +1,4 @@
-package panel;
+package autokolcs002;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 
 /**
  * Párbeszédpanelek
- * @author Tóth József
+ *  @author Fugedi Marcell
  */
 public class Panel {
 

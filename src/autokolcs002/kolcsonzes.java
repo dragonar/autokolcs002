@@ -7,7 +7,7 @@ package autokolcs002;
 
 /**
  *
- * @author fuged
+ *  @author Fugedi Marcell
  */
 public class kolcsonzes {
      private Integer id;

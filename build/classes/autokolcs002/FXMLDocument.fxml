@@ -69,16 +69,16 @@
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#batAtorles" text="Törlés" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#betAuj" text="uj" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#batAmodosit" text="Módosítás" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#batAtorles" text="Törlés" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betAuj" text="uj" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#batAmodosit" text="Módosítás" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
                   <Label text="Bérletidij:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </Label>
                   <TextField fx:id="txtAberdij" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#betAment" text="mentés" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betAment" text="mentés" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>
@@ -114,13 +114,13 @@
                   <TextField fx:id="txtBcim" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="txtBjogszam" GridPane.columnIndex="3" />
                   <TextField fx:id="txtBtelszam" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#betBju" text="uj" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betBju" text="uj" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#betBtorles" text="Törlés" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#betBmodosit" text="Modositás" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betBtorles" text="Törlés" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betBmodosit" text="Modositás" GridPane.columnIndex="5" GridPane.halignment="CENTER" />
                   <Label text="Jogositvány szám:" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="5.0" />
@@ -147,7 +147,7 @@
                      </GridPane.margin>
                   </Label>
                   <TextField fx:id="txtBjogtipus" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#betBment" text="mentés" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betBment" text="mentés" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>
@@ -176,8 +176,8 @@
                         <TableColumn fx:id="oKberdij" prefWidth="150.0" text="Bérdij" />
                     </columns>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#betKju" text="uj" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#betKment" text="ment" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betKju" text="uj" GridPane.columnIndex="2" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betKment" text="ment" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <ComboBox fx:id="cbxKnev" prefWidth="150.0" promptText="személy" />
                   <ComboBox fx:id="cbxKrendszam" prefWidth="150.0" promptText="Rendszám" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ComboBox fx:id="cbxKtipus" prefWidth="150.0" promptText="Válasz bérelhatöautot" GridPane.columnIndex="1" />
@@ -211,7 +211,7 @@
                   <TextField fx:id="txtVnev" promptText="Bérlő" />
                   <TextField fx:id="txtVtipus" promptText="Autó" GridPane.rowIndex="1" />
                   <TextField fx:id="txtVfizetett" alignment="CENTER_RIGHT" promptText="Ft" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#betVment" text="mentés" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button minWidth="90.0" mnemonicParsing="false" onAction="#betVment" text="mentés" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label fx:id="lblVdij" text="berleti dij" GridPane.columnIndex="1" />
                </children>
             </GridPane>

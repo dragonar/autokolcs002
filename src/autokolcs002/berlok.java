@@ -7,7 +7,7 @@ package autokolcs002;
 
 /**
  *
- * @author fuged
+ * @author Fuged Marcell
  */
 public class berlok {
     private Integer id;

@@ -6,8 +6,8 @@
 package autokolcs002;
 
 /**
- *
- * @author fuged
+ * Kölcsönözhető gépjárművek adatai
+ * @author Fugedi Marcell
  */
 public class auto {
      private int id;
